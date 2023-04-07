@@ -56,6 +56,7 @@ int	draw_map(t_data *img)
 				mlx_put_image_to_window(img->mlx, img->win, img->shadow,y * 50 , x * 50 );	
 			y++;
 		}
+
 		x++;
 	}
 	draw_lines(img);

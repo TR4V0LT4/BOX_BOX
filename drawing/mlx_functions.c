@@ -43,21 +43,19 @@ int comp(float z,  float y)
 	float eps = 0.000000000001;
 	return ( fabs(z - y) <= eps);
 }
+// void init_horizonatal(t_data *img)
+// {
 
-void cast_rays(t_data *img)
+// }
+double cast_rays1(t_data *img)
 {	
 	float	ry = 0;
 	float 	rx = 0;
-	int line;
-	double y;
-	double x;
-	double ray;
-	int i;
-	int next_x;
-	int next_y;
-
-	y = img->map->y * 50;
-	x = img->map->x * 50;
+	int line = 0;
+	float ray = 0;
+	int next_x = 0;
+	int next_y = 0;
+	//double temp;
 
 	line = floor(img->map->y) ;
 	ry = img->map->y - (float)line; 
@@ -65,31 +63,132 @@ void cast_rays(t_data *img)
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y - ry );
 	next_x = floor(img->map->x + rx );
-	while(img->map->map[next_x ][next_y -1 ] != '1')
-	{
-		printf("wall[%d][%d] = %c \n",next_x, next_y ,img->map->map[next_x][next_y]);
-			ry += 1; 
-	 		rx = (ry / tan(img->map->angle))  ;
-		 	ray =  sqrt((pow(ry,2)+pow(rx,2))) ;
-		next_y = floor(img->map->y - ry );
-		next_x = floor(img->map->x + rx );
-		printf("next_x = %d && next_y = %d\n", next_x, next_y);
-	}
-	i = (( ray ) * 50);
+		//printf("wall[%d][%d] = %c \n",next_x, next_y ,img->map->map[next_y][next_x]);
+		while(img->map->map[next_y][next_x] && img->map->map[next_y - 1 ][next_x ] != '1')
+		{
+				ry += 1; 
+				rx = (ry / tan(img->map->angle))  ;
+				ray =  sqrt((pow(ry,2)+pow(rx,2))) ;
+				next_y = floor(img->map->y - ry );
+				next_x = floor(img->map->x + rx );		
+		}
+	
+	// 	ry = 0;
+	//  	rx = 0;
+	//  line = 0;
+	//  ray = 0;
+	//  next_x = 0;
+	//  next_y = 0;
+
+	// line = floor(img->map->x);
+	// rx =  img->map->x - line  ;
+	// ry = rx * tan(M_PI - img->map->angle); 
+	// ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
+	// next_y = floor(img->map->y - ry );
+	// next_x = floor(img->map->x - rx );
+	
+	// printf("next_x = %d && next_y = %d\n", next_x - 1, next_y);	
+	// 	printf(" ==============================> after : rx == %f  && ry == %f ray = %f\n", rx * 50 , ry * 50, ray * 50 );
+	// while(img->map->map[next_y][next_x - 1 ] && img->map->map[next_y ][next_x - 1 ] != '1')
+	// 	{
+	// 		printf("next_x = %d && next_y = %d\n", next_x , next_y);	
+	// 			rx += 1 ;
+	// 			ry = rx * tan(M_PI - img->map->angle); 
+	// 			ray =  sqrt((pow(ry,2)+pow(rx,2))) ;
+	// 			next_y = floor(img->map->y - ry );
+	// 			next_x = floor(img->map->x - rx );
+	// 				printf(" ==============================> after : rx == %f  && ry == %f ray = %f\n", rx * 50 , ry * 50, ray * 50 );
+	// 				printf("next_x = %d && next_y = %d\n", next_x - 1, next_y);	
+	// 	printf("--------------------------------------------------------------\n");
+		
+	// 	}
+		// printf("temp = %f && ray = %f \n", temp , ray);
+		// if(temp > ray)
+		// {
+			// draw_rays(img, ray);
+			// printf("==> drawing ray\n");
+		// }	
+		// else
+		// {
+		// 	draw_rays(img, temp);
+		// 		printf("==> drawing temp\n");
+		// }	
+
+		// while(img->map->map[next_y][next_x] && img->map->map[next_y ][next_x - 1 ] != '1')
+		// {
+		// 		ry += 1; 
+		// 		rx = (ry / tan(img->map->angle))  ;
+		// 		ray =  sqrt((pow(ry,2)+pow(rx,2))) ;
+		// 		next_y = floor(img->map->y - ry );
+		// 		next_x = floor(img->map->x + rx );		
+		// }
+		
+	return (ray);
+}
+double cast_rays2(t_data *img)
+{
+	float	ry = 0;
+	float 	rx = 0;
+	int line = 0;
+	float ray = 0;
+	int next_x = 0;
+	int next_y = 0;	
+	
+
+	line = floor(img->map->x);
+	rx =  img->map->x - line  ;
+	ry = rx * tan(M_PI - img->map->angle); 
+	//ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
+	next_y = floor(img->map->y - ry );
+	next_x = floor(img->map->x - rx );
+	
+	printf("next_x = %d && next_y = %d\n", next_x - 1, next_y);	
+		printf(" ==============================> after : rx == %f  && ry == %f ray = %f\n", rx * 50 , ry * 50, ray * 50 );
+	printf("angle = %f \n", M_PI - img->map->angle );
+	while(img->map->map[next_y][next_x - 1 ] && img->map->map[next_y ][next_x - 1 ] != '1')
+		{
+			printf("next_x = %d && next_y = %d\n", next_x , next_y);	
+				rx += 1 ;
+				ry += rx * tan(M_PI - img->map->angle); 
+				next_y = floor(img->map->y - ry );
+				next_x = floor(img->map->x - rx );
+					printf(" ==============================> after : rx == %f  && ry == %f ray = %f\n", rx * 50 , ry * 50, ray * 50 );
+					printf("next_x = %d && next_y = %d\n", next_x - 1, next_y);	
+					//printf("wall = %c\n" , img->map->map[next_y][next_x - 1]);
+		printf("--------------------------------------------------------------\n");
+		break;
+		}
+				ray =  sqrt((pow(ry,2)+pow(rx,2))) ;
+	return (ray);
+}
+
+void cast_rays(t_data *img)
+{
+	double ray1 ;//, ray2;
+	//ray1 = cast_rays1(img);
+	ray1 = cast_rays2(img);
+	// if ( ray1 > ray2)
+		draw_rays(img, ray1);
+	// else
+	// 	draw_rays(img, ray1);
+}
+
+void draw_rays(t_data *img , float ray)
+{
+	float y = img->map->y * 50;
+	float x = img->map->x * 50;
+	int i = (( ray ) * 50);
 	while(i--) 
 	{
 		mlx_pixel_put(img->mlx,img->win, x, y, 0xfee440);
 		y -= sin(img->map->angle);
 		x += cos(img->map->angle);
  	}
-	printf(" ==============================> after : rx == %f  && ry == %f ray = %f\n", rx * 50 , ry * 50, ray * 50 );
-	mlx_pixel_put(img->mlx,img->win, rx * 50, (img->map->y -ry) *50, 0xd90429);
 }
-
 t_data	init_func(t_data img)
 {
 	img.height = (img.map->len - 1) * 50;
-	img.width = (img.map->long_line - 1) * 50;
+	img.width = (img.map->long_line ) * 50;
 	img.map->y = img.map->y_player;
 	img.map->x = img.map->x_player;
 	img.mlx = mlx_init();

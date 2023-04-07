@@ -61,8 +61,6 @@ typedef struct s_map
 	int			long_line;
 	int			len;
 	float		angle;
-	float		pos_x;
-	float		pos_y;
 	t_alloc_lst	**alloc_list;
 }	t_map;
 
@@ -105,6 +103,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	cast_rays(t_data *img);
 int		draw_map(t_data *img);
 int		draw_lines(t_data *img);
+void draw_rays(t_data *img , float ray);
 void	ft_images(t_data *img);
 void	raycasting(t_data img);
 t_data	init_func(t_data img);
@@ -113,9 +112,11 @@ void	destroy_window(t_data game);
 void	close_window(t_data *game);
 int		esc_key(int key, t_data *game);
 int		cross_key(void);
+
 void	move_player_w(t_data *img);
 void	move_player_s(t_data *img);
 void	move_player_a(t_data *img);
 void	move_player_d(t_data *img);
+
 
 #endif
