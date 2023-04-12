@@ -16,6 +16,7 @@ void	move_player_w(t_data *img)
 {
 	if (img->map->map[(int)(img->map->y - 1)][(int)img->map->x] != '1'  || (img->map->y - (int)img->map->y > 0.2))
 	{
+		printf("x = %f &&  y = %f \n", img->map->x, img->map->y);
 		mlx_put_image_to_window(img->mlx, img->win, img->shadow,(img->map->x * 50) - 5 , (img->map->y * 50) - 5 );
 		img->map->y -= sin(img->map->angle) / 10  ;
 		img->map->x += cos(img->map->angle) / 10 ;
