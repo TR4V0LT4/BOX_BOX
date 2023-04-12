@@ -61,6 +61,7 @@ typedef struct s_map
 	int			long_line;
 	int			len;
 	float		angle;
+	float		view;		
 	t_alloc_lst	**alloc_list;
 }	t_map;
 
@@ -103,7 +104,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	cast_rays(t_data *img);
 int		draw_map(t_data *img);
 int		draw_lines(t_data *img);
-void draw_rays(t_data *img , float ray);
+void draw_rays(t_data *img , float ray ,int color );
 void	ft_images(t_data *img);
 void	raycasting(t_data img);
 t_data	init_func(t_data img);

@@ -50,7 +50,7 @@ int comp(float z,  float y)
 	return ( fabs(z - y) <= eps);
 }
 
-double cast_rays1(t_data *img)
+double cast_rays1(t_data *img , float view)
 {	
 	float	ry = 0;
 	float 	rx = 0;
@@ -61,7 +61,7 @@ double cast_rays1(t_data *img)
 	
 	line = floor(img->map->y) ;
 	ry = img->map->y - (float)line; 
-	rx = (ry / tan(img->map->angle))  ;
+	rx = (ry / tan(view))  ;
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y - ry );
 	next_x = floor(img->map->x + rx );
@@ -73,7 +73,7 @@ if((next_y < ((img->height / 50)) && next_y > 0) && (next_x <= (img->width / 50 
 			while (TRUE)
 			 {	
 					ry += 1; 
-					rx = fabs((fabs(ry) / tan(img->map->angle)));
+					rx = fabs((fabs(ry) / tan(view)));
 					next_x = floor(img->map->x + rx );
 					next_y = floor(img->map->y - ry);
 					ray =  sqrt((pow(ry,2) + pow(rx,2)));
@@ -88,7 +88,7 @@ if((next_y < ((img->height / 50)) && next_y > 0) && (next_x <= (img->width / 50 
 			 }
 	return (ray);
 }
-double cast_rays2(t_data *img)
+double cast_rays2(t_data *img , float view)
 {
 	float	ry = 0;
 	float 	rx = 0;
@@ -97,7 +97,7 @@ double cast_rays2(t_data *img)
 	int next_y = 0;	
 	
 	rx =   ceil(img->map->x) - img->map->x  ;
-	ry = rx * tan( img->map->angle); 
+	ry = rx * tan( view); 
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y - ry );
 	next_x = floor(img->map->x + rx ) ;
@@ -109,7 +109,7 @@ if((next_y < ((img->height / 50)) && next_y > 0) && (next_x <= (img->width / 50 
 	 	while(TRUE)
 		{	
 	 			rx +=  1;
-				ry = rx * tan( img->map->angle); 
+				ry = rx * tan( view); 
 				if(ry > img->map->y)
 					ry = img->map->y;
 				ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
@@ -126,7 +126,7 @@ if((next_y < ((img->height / 50)) && next_y > 0) && (next_x <= (img->width / 50 
 	return (ray);
 }
 
-double cast_rays3(t_data *img)
+double cast_rays3(t_data *img, float view)
 {
 	float	ry = 0;
 	float 	rx = 0;
@@ -135,7 +135,7 @@ double cast_rays3(t_data *img)
 	int next_y = 0;	
 	
 	rx =  img->map->x - floor(img->map->x);
-	ry = rx * tan(M_PI -  img->map->angle);
+	ry = rx * tan(M_PI -  view);
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y - ry );
 	next_x = floor(img->map->x - rx ) ;
@@ -147,7 +147,7 @@ double cast_rays3(t_data *img)
 	 	while(TRUE)
 		{	
 	 			rx +=  1;
-				ry = rx * tan( M_PI  - img->map->angle); 
+				ry = rx * tan( M_PI  - view); 
 				ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 				next_y = floor(img->map->y - ry );
 				next_x = floor(img->map->x - rx ) ;
@@ -163,7 +163,7 @@ double cast_rays3(t_data *img)
 	return (ray);
 }
 
-double cast_rays4(t_data *img)
+double cast_rays4(t_data *img, float view)
 {	
 	float	ry = 0;
 	float 	rx = 0;
@@ -174,7 +174,7 @@ double cast_rays4(t_data *img)
 	
 	line = floor(img->map->y) ;
 	ry = img->map->y - (float)line; 
-	rx = (ry / tan(M_PI - img->map->angle))  ;
+	rx = (ry / tan(M_PI - view))  ;
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y - ry );
 	next_x = floor(img->map->x - rx );
@@ -186,7 +186,7 @@ double cast_rays4(t_data *img)
 			while (TRUE)
 			 {	
 					ry += 1; 
-					rx = fabs((fabs(ry) / tan(M_PI - img->map->angle)));
+					rx = fabs((fabs(ry) / tan(M_PI - view)));
 					next_x = floor(img->map->x - rx );
 					next_y = floor(img->map->y - ry);
 					ray =  sqrt((pow(ry,2) + pow(rx,2)));
@@ -202,7 +202,7 @@ double cast_rays4(t_data *img)
 	return (ray);
 }
 
-double cast_rays5(t_data *img)
+double cast_rays5(t_data *img, float view)
 {	
 	float	ry = 0;
 	float 	rx = 0;
@@ -213,7 +213,7 @@ double cast_rays5(t_data *img)
 	
 	line = ceil(img->map->y) ;
 	ry = (float)line -  img->map->y  ; 
-	rx = (ry / tan(img->map->angle - M_PI))  ;
+	rx = (ry / tan(view - M_PI))  ;
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y + ry );
 	next_x = floor(img->map->x - rx );
@@ -225,7 +225,7 @@ double cast_rays5(t_data *img)
 			while (TRUE)
 			 {				
 					ry += 1; 
-					rx = fabs((fabs(ry) / tan(M_PI - img->map->angle)));
+					rx = fabs((fabs(ry) / tan(M_PI - view)));
 					next_x = floor(img->map->x - rx );
 					next_y = floor(img->map->y + ry);
 					ray =  sqrt((pow(ry,2) + pow(rx,2)));
@@ -242,7 +242,7 @@ double cast_rays5(t_data *img)
 	return (ray);
 }
 
-double cast_rays6(t_data *img)
+double cast_rays6(t_data *img, float view)
 {	
 	float	ry = 0;
 	float 	rx = 0;
@@ -253,7 +253,7 @@ double cast_rays6(t_data *img)
 	
 	line = ceil(img->map->y) ;
 	ry = (float)line -  img->map->y  ; 
-	rx = ry * tan( ((3 * M_PI) / 2) - img->map->angle )  ;
+	rx = ry * tan( ((3 * M_PI) / 2) - view )  ;
 	ray =  (sqrt((pow(ry,2)+pow(rx,2))));	
 	next_y = floor(img->map->y + ry );
 	next_x = floor(img->map->x - rx );
@@ -265,7 +265,7 @@ double cast_rays6(t_data *img)
 			while (TRUE)
 			 {	
 					ry += 1; 
-					rx = (ry * tan( ((3 * M_PI) / 2) - img->map->angle )) ;
+					rx = (ry * tan( ((3 * M_PI) / 2) - view )) ;
 					next_x = floor(img->map->x - rx );
 					next_y = floor(img->map->y + ry);
 					ray =  sqrt((pow(ry,2) + pow(rx,2)));
@@ -285,69 +285,80 @@ double cast_rays6(t_data *img)
 
 void cast_rays(t_data *img)
 {
-	double ray1 = 0;
+	 double ray1 = 0;
 	double ray2 = 0;
-	double ray3 = 0;
-	double ray4 = 0;
-	double ray5 = 0;
-	double ray6 = 0;
-
-	 if(img->map->angle >= 0 && img->map->angle <= (M_PI * 2))
-	 { 	
-		if(img->map->angle <= (M_PI / 2)+ 0.1)	
+	 double ray3 = 0;
+	 double ray4 = 0;
+	 double ray5 = 0;
+	 double ray6 = 0;
+	img->map->view = img->map->angle;// - (M_PI / 6);
+	
+	while(img->map->view <= (img->map->angle + (M_PI / 6)))
+	{
+		if( img->map->view >= 0 &&  img->map->view <= (M_PI / 2) )	
 		{
-		  	ray1 = cast_rays1(img);
-		 	ray2 = cast_rays2(img);	
-			if (ray2 && ray1 > ray2  )
-		 		draw_rays(img, ray2);
-			else
-	 			draw_rays(img, ray1);
+			
+		  		ray1 = cast_rays1(img,img->map->view);
+		 		ray2 = cast_rays2(img, img->map->view);	
+				if (ray2 && ray1 > ray2  )
+		 			draw_rays(img, ray2,0x00b4d8);
+				else
+	 				draw_rays(img, ray1,0x00b4d8);
+			printf("UP _ RIGHT\n");	
 	 	}
-		else if( img->map->angle > (M_PI / 2) && img->map->angle <= M_PI )	
+		else  if( img->map->view > (M_PI / 2) && img->map->view < M_PI )	
 		{
-			ray4 = cast_rays4(img);
-			ray3 = cast_rays3(img);	
+			ray4 = cast_rays4(img,img->map->view);
+			ray3 = cast_rays3(img,img->map->view);	
 			
 			if (ray3 && ray4 > ray3  )
-		  		draw_rays(img, ray3);
+		  		draw_rays(img, ray3,0xffd60a);
 			else
-	 			draw_rays(img, ray4);	
+	 			draw_rays(img, ray4,0xffd60a);
+				printf("UP _ LEFT\n");	
 		 }
-		 else if( img->map->angle > M_PI && img->map->angle <=  (( 3 * M_PI) / 2 ))	
+		 else  if( img->map->view >= M_PI && img->map->view <  (( 3 * M_PI) / 2 ) )	
 		{
-			ray5 = cast_rays5(img);
-			ray3 = cast_rays3(img);	
+			ray5 = cast_rays5(img,img->map->view);
+			ray3 = cast_rays3(img,img->map->view);	
 			
 			if (ray3 && ray5 > ray3  )
-		  		draw_rays(img, ray3);
+		  		draw_rays(img, ray3,0xfb6107);
 			else
-	 			draw_rays(img, ray5);	
+	 			draw_rays(img, ray5,0xfb6107);	
+				printf("DOWN _ RIGHT\n");
 		 }
-		 else if( img->map->angle >  (( 3 * M_PI) / 2 )  && img->map->angle <= M_PI * 2 )	
+		else  if( img->map->view >=  (( 3 * M_PI) / 2 )  && img->map->view < M_PI * 2 )	
 		{
-			ray6 = cast_rays6(img);
-			ray2 = cast_rays2(img);	
+			ray6 = cast_rays6(img,img->map->view);
+			ray2 = cast_rays2(img,img->map->view);	
 			
 			if (ray2 && ray6 > ray2  )
-		  		draw_rays(img, ray2);
+		  		draw_rays(img, ray2,0x80ed99);
 			else
-	 			draw_rays(img, ray6);	
+	 			draw_rays(img, ray6,0x80ed99);
+				printf("DOWN _ LEFT\n");	
 		 }
-	 }
+		img->map->view += 0.002;
+	}
 } 	
 	
 
-void draw_rays(t_data *img , float ray)
+void draw_rays(t_data *img , float ray ,int color )
 {
-	float y = img->map->y * 50;
-	float x = img->map->x * 50;
-	int i = (( ray ) * 50);
-	while(i--) 
-	{
-		mlx_pixel_put(img->mlx,img->win, x, y, 0xfee440);
-		y -= sin(img->map->angle);
-		x += cos(img->map->angle);
- 	}
+	double x;
+	double y;
+	
+		 y = img->map->y * 50;
+		 x = img->map->x * 50;
+		int i = (( ray ) * 50);
+		while(i--) 
+		{
+			mlx_pixel_put(img->mlx,img->win, x, y, color);
+			y -= sin(img->map->view);
+			x += cos(img->map->view);
+ 		}
+
 }
 t_data	init_func(t_data img)
 {
