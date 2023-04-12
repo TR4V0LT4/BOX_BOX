@@ -63,3 +63,26 @@ int	draw_map(t_data *img)
 	mlx_put_image_to_window(img->mlx, img->win, img->player, (img->map->x * 50) - 5, (img->map->y * 50) - 5);
 	return (0);
 }
+
+void draw_world(t_data *img)
+{
+	int i = 0;
+	int j;
+	int color = 0xade8f4;
+
+
+		while(i <= img->height )
+		{	
+			if(i > img->height / 2)
+				color = 0x283618;
+
+			j = 0;
+			while(j <= (img->width + 50) )
+			{
+				mlx_pixel_put(img->mlx, img->win, j , i, color);
+				j++;
+			}	
+			i++;
+		}
+
+}

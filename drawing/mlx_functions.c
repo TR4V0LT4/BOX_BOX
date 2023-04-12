@@ -30,7 +30,8 @@ int	move_player(int keycode, t_data *img)
 		img->map->angle -= 0.1;
 		if(img->map->angle < 0)
 			img->map->angle += (2 * M_PI);
-		draw_map(img);
+		//draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 	if (keycode == 123)
@@ -39,7 +40,8 @@ int	move_player(int keycode, t_data *img)
 		img->map->angle += 0.1;
 		if(img->map->angle > (2 * M_PI))
 			img->map->angle -= (2 * M_PI);
-		draw_map(img);
+		//draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 	return (0);
@@ -292,7 +294,8 @@ void cast_rays(t_data *img)
 	 double ray5 = 0;
 	 double ray6 = 0;
 	// - (M_PI / 6);
-	double i = 0;
+	double i = 0; 
+	double x = 0;
 	while(i <=  (M_PI / 3))
 	{
 		img->map->view = img->map->angle + i;
@@ -303,20 +306,20 @@ void cast_rays(t_data *img)
 			
 		  		ray1 = cast_rays1(img,img->map->view);
 		 		ray2 = cast_rays2(img, img->map->view);	
+				
 				if (ray2 && ray1 > ray2  )
-		 			draw_rays(img, ray2,0x00b4d8);
+		 			dala(img,ray2,&x);
 				else
-	 				draw_rays(img, ray1,0x00b4d8);
+	 				dala(img,ray1,&x);
 	 	}
 		else  if( img->map->view > (M_PI / 2) && img->map->view < M_PI )	
 		{
 			ray4 = cast_rays4(img,img->map->view);
 			ray3 = cast_rays3(img,img->map->view);	
-			
-			if (ray3 && ray4 > ray3  )
-		  		draw_rays(img, ray3,0xffd60a);
+			 if (ray3 && ray4 > ray3  )
+			  	dala(img,ray3,&x);
 			else
-	 			draw_rays(img, ray4,0xffd60a);
+	 			dala(img,ray4,&x);
 		 }
 		 else  if( img->map->view >= M_PI && img->map->view <  (( 3 * M_PI) / 2 ) )	
 		{
@@ -324,9 +327,9 @@ void cast_rays(t_data *img)
 			ray3 = cast_rays3(img,img->map->view);	
 			
 			if (ray3 && ray5 > ray3  )
-		  		draw_rays(img, ray3,0xfb6107);
+		  		dala(img,ray3,&x);
 			else
-	 			draw_rays(img, ray5,0xfb6107);	
+	 			dala(img,ray5,&x);	
 		 }
 		else  if( img->map->view >=  (( 3 * M_PI) / 2 )  && img->map->view <= M_PI * 2 )	
 		{
@@ -334,15 +337,36 @@ void cast_rays(t_data *img)
 			ray2 = cast_rays2(img,img->map->view);	
 			
 			if (ray2 && ray6 > ray2  )
-		  		draw_rays(img, ray2,0x80ed99);
+			  dala(img,ray2,&x);
 			else
-	 			draw_rays(img, ray6,0x80ed99);
+	 			dala(img,ray6,&x);
 		 }
 		  
 		i += 0.005;
+		x += 1;
 	}
 } 	
 	
+void dala(t_data *img , double ray, double *x)
+{
+	double y;
+	int color = 0x000000;
+	
+		 y = img->height / 2;
+		int i = (( ray ) * 50) ;
+		int j = 3;
+		while(j--)
+		{
+			i = (( ray ) * 50) ;
+			while(i--) 
+			{
+				mlx_pixel_put(img->mlx,img->win, *x, y, color);
+				y -= 1;
+ 			}
+		 	*x += 0.11;
+		}
+
+}
 
 void draw_rays(t_data *img , float ray ,int color )
 {
@@ -390,9 +414,11 @@ void raycasting(t_data img)
 	img.width = (img.map->long_line - 1) * 50;
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 			&img.line_length, &img.endian);
-	draw_map(&img);
+	//draw_map(&img);
 	//player moves//
 	//cast_rays(&img);
+
+	draw_world(&img);
 	destroy_window(img);
 	mlx_hook(img.win, 2, 0L, move_player, &img);
 	mlx_loop(img.mlx);

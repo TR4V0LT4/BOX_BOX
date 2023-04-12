@@ -20,7 +20,8 @@ void	move_player_w(t_data *img)
 		mlx_put_image_to_window(img->mlx, img->win, img->shadow,(img->map->x * 50) - 5 , (img->map->y * 50) - 5 );
 		img->map->y -= sin(img->map->angle) / 10  ;
 		img->map->x += cos(img->map->angle) / 10 ;
-		draw_map(img);
+	//	draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 }
@@ -32,7 +33,8 @@ void	move_player_s(t_data *img)
 		mlx_put_image_to_window(img->mlx, img->win, img->shadow,(img->map->x * 50) - 5 , (img->map->y * 50) - 5 );
 		img->map->y += sin(img->map->angle) / 10;
 		img->map->x -= cos(img->map->angle) / 10;
-		draw_map(img);
+		//draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 }
@@ -44,7 +46,8 @@ void	move_player_a(t_data *img)
 		mlx_put_image_to_window(img->mlx, img->win, img->shadow,(img->map->x * 50) - 5 , (img->map->y * 50) - 5 );
 		img->map->y += sin(img->map->angle - (M_PI / 2)) / 10;
 		img->map->x -= cos(img->map->angle - (M_PI / 2)) / 10;
-		draw_map(img);
+		//draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 }
@@ -56,7 +59,8 @@ void	move_player_d(t_data *img)
 		mlx_put_image_to_window(img->mlx, img->win, img->shadow,(img->map->x * 50) - 5 , (img->map->y * 50) - 5 );
 		img->map->y -= sin(img->map->angle - (M_PI / 2)) / 10;
 		img->map->x += cos(img->map->angle - (M_PI / 2)) / 10;
-		draw_map(img);
+		//draw_map(img);
+		draw_world(img);
 		cast_rays(img);
 	}
 }
