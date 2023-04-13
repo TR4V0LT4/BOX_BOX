@@ -294,11 +294,14 @@ void cast_rays(t_data *img)
 	 double ray5 = 0;
 	 double ray6 = 0;
 	// - (M_PI / 6);
-	double i = 0; 
+	int color = 0x000000;
+	double angle = 0; 
 	double x = 0;
-	while(i <=  (M_PI / 3))
+	mlx_clear_window(img->mlx,img->win);
+	draw_lines(img);
+	while(angle <=  (M_PI / 3))
 	{
-		img->map->view = img->map->angle + i;
+		img->map->view = img->map->angle + angle;
 		if(img->map->view >= (2 * M_PI))
 			img->map->view -= (2 * M_PI);
 		if( img->map->view >= 0 &&  img->map->view <= (M_PI / 2) )	
@@ -308,18 +311,18 @@ void cast_rays(t_data *img)
 		 		ray2 = cast_rays2(img, img->map->view);	
 				
 				if (ray2 && ray1 > ray2  )
-		 			dala(img,ray2,&x);
+		 			dala(img,ray2,&x,0x6c757d);
 				else
-	 				dala(img,ray1,&x);
+	 				dala(img,ray1,&x, color);
 	 	}
 		else  if( img->map->view > (M_PI / 2) && img->map->view < M_PI )	
 		{
 			ray4 = cast_rays4(img,img->map->view);
 			ray3 = cast_rays3(img,img->map->view);	
 			 if (ray3 && ray4 > ray3  )
-			  	dala(img,ray3,&x);
+			  	dala(img,ray3,&x, 0xc9184a);
 			else
-	 			dala(img,ray4,&x);
+	 			dala(img,ray4,&x,color);
 		 }
 		 else  if( img->map->view >= M_PI && img->map->view <  (( 3 * M_PI) / 2 ) )	
 		{
@@ -327,9 +330,9 @@ void cast_rays(t_data *img)
 			ray3 = cast_rays3(img,img->map->view);	
 			
 			if (ray3 && ray5 > ray3  )
-		  		dala(img,ray3,&x);
+		  		dala(img,ray3,&x,color);
 			else
-	 			dala(img,ray5,&x);	
+	 			dala(img,ray5,&x,color);	
 		 }
 		else  if( img->map->view >=  (( 3 * M_PI) / 2 )  && img->map->view <= M_PI * 2 )	
 		{
@@ -337,35 +340,33 @@ void cast_rays(t_data *img)
 			ray2 = cast_rays2(img,img->map->view);	
 			
 			if (ray2 && ray6 > ray2  )
-			  dala(img,ray2,&x);
+			  dala(img,ray2,&x,color);
 			else
-	 			dala(img,ray6,&x);
+	 			dala(img,ray6,&x,color);
 		 }
 		  
-		i += 0.005;
+		angle += (M_PI / 3) / img->width;
 		x += 1;
 	}
+	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	
 } 	
 	
-void dala(t_data *img , double ray, double *x)
+void dala(t_data *img , double ray, double *x, int color)
 {
-	double y;
-	int color = 0x000000;
-	
-		 y = img->height / 2;
-		int i = (( ray ) * 50) ;
-		int j = 3;
-		while(j--)
-		{
-			i = (( ray ) * 50) ;
-			while(i--) 
+		double distance = (img->width  / 2) * tan((M_PI / 2) / 2);
+		//double wall_d = (ray * 50 ) * cos(img->map->angle); 
+		double wall = round((distance * 50) / (ray * 50 )) ;
+		double y = (img->height / 2 ) - (wall / 2);
+		//int i = (( ray ) * 5 ;
+			
+			while(y <= (img->height / 2) + (wall / 2)) 
 			{
-				mlx_pixel_put(img->mlx,img->win, *x, y, color);
-				y -= 1;
+				 //mlx_pixel_put(img->mlx,img->win, *x, y, color);
+				my_mlx_pixel_put(img,*x, y, color);
+				y += 1;
  			}
-		 	*x += 0.11;
-		}
-
+	//mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 }
 
 void draw_rays(t_data *img , float ray ,int color )

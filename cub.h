@@ -119,7 +119,7 @@ void	move_player_s(t_data *img);
 void	move_player_a(t_data *img);
 void	move_player_d(t_data *img);
 void draw_world(t_data *img);
-void dala(t_data *img , double ray, double *x);
+void dala(t_data *img , double ray, double *x, int color);
 
 
 

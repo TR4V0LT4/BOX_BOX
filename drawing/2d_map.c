@@ -71,15 +71,15 @@ void draw_world(t_data *img)
 	int color = 0xade8f4;
 
 
-		while(i <= img->height )
+		while(i < img->height )
 		{	
 			if(i > img->height / 2)
 				color = 0x283618;
 
 			j = 0;
-			while(j <= (img->width + 50) )
+			while(j < (img->width + 50) )
 			{
-				mlx_pixel_put(img->mlx, img->win, j , i, color);
+				my_mlx_pixel_put(img,j, i, color);
 				j++;
 			}	
 			i++;
