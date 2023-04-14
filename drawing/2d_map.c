@@ -74,7 +74,7 @@ void draw_world(t_data *img)
 		while(i < img->height )
 		{	
 			if(i > img->height / 2)
-				color = 0x283618;
+				color = 0x000000;
 
 			j = 0;
 			while(j < (img->width + 50) )

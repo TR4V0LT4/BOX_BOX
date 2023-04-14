@@ -284,7 +284,44 @@ double cast_rays6(t_data *img, float view)
 }
 
 
+void mini_map(t_data *img)
+{
+	int	x;
+	int	y;
 
+	x = 0;
+	while (x < img->map->len - 1)
+	{
+		y = 0;
+		while (y < img->map->long_line)
+		{
+			if (img->map->map[x][y] == '1')
+				mlx_put_image_to_window(img->mlx, img->win, img->wall,
+					y * 10, x * 10);
+			// else
+			// 	mlx_put_image_to_window(img->mlx, img->win, img->shadow,
+			// 		y * 10, x * 10);
+			y++;
+		}
+		x++;
+	}
+	my_mlx_pixel_put(img,img->map->x  , img->map->y    ,0xc1121f);
+	// mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0); 
+	// int y = (img->height / 4 ) * 3;
+	// int x = (img->width / 4) * 3;
+	// int color = 0xFFFFFF;
+
+	// 	while(y < img->height / 50 ) 
+	// 	{
+	// 		x = ((img->width / 50) / 4) * 3;
+	// 		while(x < img->width / 50)
+	// 		{ //mlx_pixel_put(img->mlx,img->win, *x, y, color);
+	// 			my_mlx_pixel_put(img,x, y, color);
+	// 				y += 1;	
+	// 		}
+	// 		x += 1;
+ 	// 	}
+}
 void cast_rays(t_data *img)
 {
 	 double ray1 = 0;
@@ -294,14 +331,15 @@ void cast_rays(t_data *img)
 	 double ray5 = 0;
 	 double ray6 = 0;
 	// - (M_PI / 6);
-	int color = 0x000000;
-	double angle = 0; 
+	//int color = 0x9d0208;
+	//double angle = 0; 
 	double x = 0;
 	mlx_clear_window(img->mlx,img->win);
-	draw_lines(img);
-	while(angle <=  (M_PI / 3))
+	//draw_world(img);
+	img->map->view = img->map->angle - (M_PI /6 );
+	while(img->map->view <=  img->map->angle + (M_PI /6 ) + (5 * RAD) )
 	{
-		img->map->view = img->map->angle + angle;
+		//img->map->view = img->map->angle + angle;
 		if(img->map->view >= (2 * M_PI))
 			img->map->view -= (2 * M_PI);
 		if( img->map->view >= 0 &&  img->map->view <= (M_PI / 2) )	
@@ -311,18 +349,18 @@ void cast_rays(t_data *img)
 		 		ray2 = cast_rays2(img, img->map->view);	
 				
 				if (ray2 && ray1 > ray2  )
-		 			dala(img,ray2,&x,0x6c757d);
+		 			dala(img,ray2,&x,0x343a40);
 				else
-	 				dala(img,ray1,&x, color);
+	 				dala(img,ray1,&x, 0xdee2e6);
 	 	}
 		else  if( img->map->view > (M_PI / 2) && img->map->view < M_PI )	
 		{
 			ray4 = cast_rays4(img,img->map->view);
 			ray3 = cast_rays3(img,img->map->view);	
 			 if (ray3 && ray4 > ray3  )
-			  	dala(img,ray3,&x, 0xc9184a);
+			  	dala(img,ray3,&x, 0x343a40);
 			else
-	 			dala(img,ray4,&x,color);
+	 			dala(img,ray4,&x,0x343a40);
 		 }
 		 else  if( img->map->view >= M_PI && img->map->view <  (( 3 * M_PI) / 2 ) )	
 		{
@@ -330,9 +368,9 @@ void cast_rays(t_data *img)
 			ray3 = cast_rays3(img,img->map->view);	
 			
 			if (ray3 && ray5 > ray3  )
-		  		dala(img,ray3,&x,color);
+		  		dala(img,ray3,&x,0x343a40);
 			else
-	 			dala(img,ray5,&x,color);	
+	 			dala(img,ray5,&x,0x343a40);	
 		 }
 		else  if( img->map->view >=  (( 3 * M_PI) / 2 )  && img->map->view <= M_PI * 2 )	
 		{
@@ -340,16 +378,19 @@ void cast_rays(t_data *img)
 			ray2 = cast_rays2(img,img->map->view);	
 			
 			if (ray2 && ray6 > ray2  )
-			  dala(img,ray2,&x,color);
+			  dala(img,ray2,&x,0x343a40);
 			else
-	 			dala(img,ray6,&x,color);
+	 			dala(img,ray6,&x,0x343a40);
 		 }
 		  
-		angle += (M_PI / 3) / img->width;
+		img->map->view += (M_PI / 3) / img->width;
 		x += 1;
 	}
-	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	printf("angle = %f \n", img->map->angle);
 	
+	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	mini_map(img);
+	my_mlx_pixel_put(img,img->map->x *50 , img->map->y *50 ,0xffffff);
 } 	
 	
 void dala(t_data *img , double ray, double *x, int color)
@@ -357,7 +398,7 @@ void dala(t_data *img , double ray, double *x, int color)
 		double distance = (img->width  / 2) * tan((M_PI / 2) / 2);
 		//double wall_d = (ray * 50 ) * cos(img->map->angle); 
 		double wall = round((distance * 50) / (ray * 50 )) ;
-		double y = (img->height / 2 ) - (wall / 2);
+		double y = (img->height  / 2 ) - (wall / 2) ;
 		//int i = (( ray ) * 5 ;
 			
 			while(y <= (img->height / 2) + (wall / 2)) 
@@ -399,7 +440,7 @@ t_data	init_func(t_data img)
 
 void	ft_images(t_data *img)
 {
-	img->wall = mlx_xpm_file_to_image(img->mlx, "./images/wall.xpm",
+	img->wall = mlx_xpm_file_to_image(img->mlx, "./images/j.xpm",
 		&img->width, &img->height);
 	img->player = mlx_xpm_file_to_image(img->mlx, "./images/player.xpm",
 		&img->width, &img->height);
