@@ -337,8 +337,15 @@ void cast_rays(t_data *img)
 	mlx_clear_window(img->mlx,img->win);
 	//draw_world(img);
 	img->map->view = img->map->angle - (M_PI /6 );
-	while(img->map->view <=  img->map->angle + (M_PI /6 ) + (5 * RAD) )
+	double s = (M_PI / 3) / img->width ;
+
+	printf ("player angle {%f}\n", s * 180/M_PI);
+
+	printf ("the start (%f)\n", img->map->view * 180/M_PI);
+	while(img->map->view <=  img->map->angle + (M_PI / 6)   )
 	{
+	
+
 		//img->map->view = img->map->angle + angle;
 		if(img->map->view >= (2 * M_PI))
 			img->map->view -= (2 * M_PI);
@@ -383,22 +390,26 @@ void cast_rays(t_data *img)
 	 			dala(img,ray6,&x,0x343a40);
 		 }
 		  
-		img->map->view += (M_PI / 3) / img->width;
+		img->map->view += (M_PI / 3) /( img->width+ 50 );
 		x += 1;
 	}
-	printf("angle = %f \n", img->map->angle);
+	printf ("the end (%f)\n", img->map->view * 180/M_PI);
 	
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 	mini_map(img);
-	my_mlx_pixel_put(img,img->map->x *50 , img->map->y *50 ,0xffffff);
+	//my_mlx_pixel_put(img,img->map->x  , img->map->y  ,0x9381ff);
+	mlx_pixel_put(img->mlx,img->win,img->map->x * 10, img->map->y*10,0x9381ff);
+
 } 	
 	
 void dala(t_data *img , double ray, double *x, int color)
 {
-		double distance = (img->width  / 2) * tan((M_PI / 2) / 2);
+		double distance = (img->height  / 2) * tan((M_PI / 2) / 2);
 		//double wall_d = (ray * 50 ) * cos(img->map->angle); 
 		double wall = round((distance * 50) / (ray * 50 )) ;
+		
 		double y = (img->height  / 2 ) - (wall / 2) ;
+	
 		//int i = (( ray ) * 5 ;
 			
 			while(y <= (img->height / 2) + (wall / 2)) 
